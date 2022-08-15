@@ -7,7 +7,7 @@ Introduction goes here.
 1. Add this extension to your Gemfile with this line:
 
     ```ruby
-    gem 'spree_razorpay'
+    gem 'spree_razorpay', github: 'rahul2103/spree_razorpay'
     ```
 
 2. Install the gem using Bundler
