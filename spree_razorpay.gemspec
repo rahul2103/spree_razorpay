@@ -22,7 +22,7 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_dependency 'spree', '>= 4.3.2'
-  s.add_dependency 'spree_backend' # uncomment to include Admin Panel changes
+  s.add_dependency 'spree_backend'
   s.add_dependency 'spree_frontend'
   s.add_dependency 'razorpay'
   s.add_dependency 'spree_extension'
