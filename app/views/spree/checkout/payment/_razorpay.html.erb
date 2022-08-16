@@ -1,0 +1,5 @@
+<%= link_to(Spree.t(:razorpay), razorpay_url(:payment_method_id => payment_method.id), :method => :post, :id => "razorpay_button", class: 'btn btn-outline-success rounded-lg font-weight-bold') %>
+
+<script>
+  SpreeRazorpay.paymentMethodID = "<%= payment_method.id %>"  
+ </script>
