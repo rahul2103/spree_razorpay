@@ -8,7 +8,7 @@
   data-razor-pay-currency="INR"
   data-razor-pay-name="<%= payment_method.preferences[:merchant_name] %>"
   data-razor-pay-description="<%= payment_method.preferences[:merchant_description] %>"
-  data-razor-pay-callback-url="<%= razorpay_response_url(order_id: current_order.number) %>"
+  data-razor-pay-callback-url="<%= razorpay_response_url(order_id: current_order.number, payment_method_id: payment_method.id) %>"
 
   data-razor-pay-prefill-name="<%= spree_current_user.try(:email) %>"
   data-razor-pay-prefill-email="<%= spree_current_user.try(:email) %>"
@@ -18,33 +18,3 @@
 
   data-razor-pay-theme-color="<%= payment_method.preferences[:theme_color] %>"
 />
-
-
-
-<script>
-var options = {
-    "key": "<%= payment_method.preferences[:key_id] %>",
-    "amount": "<%= current_order.amount_in_paise %>",
-    "currency": "INR",
-    "name": "<%= payment_method.preferences[:merchant_name] %>",
-    "description": "<%= payment_method.preferences[:merchant_description] %>",
-    "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
-    "prefill": {
-        "name": "Gaurav Kumar",
-        "email": "gaurav.kumar@example.com",
-        "contact": "9999999999"
-    },
-    "notes": {
-        "address": "Razorpay Corporate Office"
-    },
-    "theme": {
-        "color": "#3399cc"
-    }
-};
-var rzp1 = new Razorpay(options);
-document.getElementById('rzp-button1').onclick = function(e){
-    rzp1.open();
-    e.preventDefault();
-}
-</script>
-
