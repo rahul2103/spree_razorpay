@@ -30,6 +30,11 @@ module Spree
 
     # end
 
+    def response
+      debugger
+
+    end
+
     def create
       debugger
 
