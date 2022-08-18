@@ -3,6 +3,8 @@ class CreateSpreeRazorpayCheckouts < ActiveRecord::Migration[6.1]
     create_table :spree_razorpay_checkouts do |t|
       t.string :order_id
       t.string :razorpay_payment_id
+      t.string :razorpay_order_id
+      t.string :razorpay_signature
       t.string :status
       t.string :payment_method
       t.string :card_id

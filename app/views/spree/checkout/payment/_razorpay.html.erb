@@ -5,16 +5,20 @@
   id="razor-pay-options"
   data-razor-pay-key="<%= payment_method.preferences[:key_id] %>"
   data-razor-pay-amount="<%= current_order.amount_in_paise %>"
-  data-razor-pay-currency="INR"
+  data-razor-pay-currency="<%= current_order.currency %>"
   data-razor-pay-name="<%= payment_method.preferences[:merchant_name] %>"
   data-razor-pay-description="<%= payment_method.preferences[:merchant_description] %>"
   data-razor-pay-callback-url="<%= razorpay_response_url(order_id: current_order.number, payment_method_id: payment_method.id) %>"
 
   data-razor-pay-prefill-name="<%= spree_current_user.try(:email) %>"
   data-razor-pay-prefill-email="<%= spree_current_user.try(:email) %>"
-  data-razor-pay-prefill-contact=""
+  data-razor-pay-prefill-contact="<%= current_order.bill_address.phone %>"
 
   data-razor-pay-notes-address="<%= payment_method.preferences[:merchant_address] %>"
 
   data-razor-pay-theme-color="<%= payment_method.preferences[:theme_color] %>"
+
+  data-razor-pay-redirect="<%= true %>"
+  data-razor-pay-image="<%= '' %>"
+  data-razor-pay-order-id="<%= Razorpay::RpOrder::Api.create(current_order.token) %>"
 />
