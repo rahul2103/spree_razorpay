@@ -12,9 +12,7 @@ module Razorpay
         @order = Spree::Order.find_by_token(order_token)
         @razorpay_checkout = Spree::RazorpayCheckout.find_by_order_id(@order.id)
 
-        debugger
-
-        return @razorpay_checkout.razorpay_order_id if @razorpay_checkout.present?
+        return razorpay_checkout.razorpay_order_id if razorpay_checkout.present?
 
         url = URI(order_create_url)
         https = Net::HTTP.new(url.host, url.port)
@@ -27,8 +25,6 @@ module Razorpay
 
         response = https.request(request)
         parsed_data = JSON.parse(response.body)
-
-        debugger
 
         if response.code == '200'
           save_razorpay_order(parsed_data)
@@ -46,7 +42,7 @@ module Razorpay
 
       def order_create_params
        {
-          "amount": @order.total,
+          "amount": @order.inr_amt_in_paise,
           "currency": @order.currency
         }
       end
@@ -60,10 +56,12 @@ module Razorpay
       end
 
       def save_razorpay_order(response_data)
-        Spree::RazorpayCheckout.find_or_create_by(
+        rpay_checkout  = Spree::RazorpayCheckout.find_or_initialize_by(
           order_id: @order.id,
           razorpay_order_id: response_data['id']
           )
+
+        rpay_checkout.save
       end
     end 
   end

@@ -5,6 +5,8 @@ var RAZOR_PAY_BUTTON = '#razorpay-button'
 
 Spree.ready(function ($) {
 
+  let razor_pay = $(RAZOR_PAY_BUTTON)
+
   var options = {
       "key": $(RAZOR_PAY_OPTIONS).data('razor-pay-key'),
       "amount": $(RAZOR_PAY_OPTIONS).data('razor-pay-amount'),
@@ -24,12 +26,13 @@ Spree.ready(function ($) {
       },
       "theme": {
         "color": $(RAZOR_PAY_OPTIONS).data('razor-pay-theme-color')
-      },
-      "customer_id": $(RAZOR_PAY_OPTIONS).data('razor-pay-prefill-email'),
-      "image": $(RAZOR_PAY_OPTIONS).data('razor-pay-image')
+      }
   };
 
-  var rzp1 = new Razorpay(options);
+  if ( razor_pay.length > 0 ) {
+    var rzp1 = new Razorpay(options);
+  }
+
   document.getElementById('razorpay-button').onclick = function(e){
       rzp1.open();
       e.preventDefault();

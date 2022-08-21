@@ -1,6 +1,6 @@
 module Spree
   module OrderDecorator
-    def amount_in_paise
+    def inr_amt_in_paise
       (amount.to_f * 100).to_i
     end
 

@@ -4,7 +4,7 @@
 <div
   id="razor-pay-options"
   data-razor-pay-key="<%= payment_method.preferences[:key_id] %>"
-  data-razor-pay-amount="<%= current_order.amount_in_paise %>"
+  data-razor-pay-amount="<%= current_order.inr_amt_in_paise %>"
   data-razor-pay-currency="<%= current_order.currency %>"
   data-razor-pay-name="<%= payment_method.preferences[:merchant_name] %>"
   data-razor-pay-description="<%= payment_method.preferences[:merchant_description] %>"
@@ -20,5 +20,5 @@
 
   data-razor-pay-redirect="<%= true %>"
   data-razor-pay-image="<%= '' %>"
-  data-razor-pay-order-id="<%= Razorpay::RpOrder::Api.create(current_order.token) %>"
+  data-razor-pay-order-id="<%= Razorpay::RpOrder::Api.new.create(current_order.token) %>"
 />

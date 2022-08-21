@@ -1,6 +1,6 @@
 module Razorpay
   class Base
-    attr_reader :payment_method
+    attr_accessor :payment_method
 
     def initialize
       @payment_method = Spree::PaymentMethod.find_by_type('Spree::Gateway::RazorpayGateway')
