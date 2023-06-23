@@ -3,8 +3,8 @@ module Spree
     extend ActiveSupport::Concern
 
     def update_razorpay_checkout
-      @razorpay_checkout = Spree::RazorpayCheckout.find_or_initialize_by(order_id: order.try(:id))
-      @razorpay_checkout.update_columns(update_razorpay_response)
+      razorpay_checkout = Spree::RazorpayCheckout.find_or_initialize_by(order_id: order.try(:id))
+      razorpay_checkout.update_columns(update_razorpay_response)
     end
 
     def update_razorpay_response

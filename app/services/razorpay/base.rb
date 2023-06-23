@@ -7,7 +7,7 @@ module Razorpay
     private
 
     def find_payment_gateway
-      Spree::PaymentMethod.find_by_type('Spree::Gateway::RazorpayGateway')
+      Spree::PaymentMethod.find_by(type: 'Spree::Gateway::RazorpayGateway')
     end
 
     def setup_razorpay

@@ -19,11 +19,11 @@ module Spree
           vpa: payment_object.vpa,
           email: payment_object.email,
           contact: payment_object.contact
-          ),
+        ),
         payment_method: payment_method,
         amount: total,
         response_code: payment_object.status
-        )
+      )
     end
 
     ::Spree::Order.prepend self

@@ -1,11 +1,6 @@
-require "uri"
-require "json"
-require "net/http"
-
 module Razorpay
   module RpOrder
     class Api < Razorpay::Base
-
       attr_reader :order
 
       def create(order_id)
@@ -13,12 +8,10 @@ module Razorpay
 
         razorpay_order = Razorpay::Order.create(order_create_params)
 
-        if razorpay_order.try(:id).present?
-          return razorpay_order.id
-        else
-          ''
-        end
-      rescue Exception => e
+        return razorpay_order.id if razorpay_order.try(:id).present?
+
+        ''
+      rescue StandardError
         ''
       end
 
@@ -31,6 +24,6 @@ module Razorpay
           "receipt": order.number
         }
       end
-    end 
+    end
   end
 end

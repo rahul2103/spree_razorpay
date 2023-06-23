@@ -5,21 +5,16 @@ module Spree
     include Spree::RazorPay
 
     def razor_response
-      if params['razorpay_payment_id'].present?
-        if Razorpay::Utility.verify_payment_signature(update_razorpay_response)
-          razorpay_pmnt_obj = Razorpay::Payment.fetch(params[:razorpay_payment_id])
+      if params['razorpay_payment_id'].present? && Razorpay::Utility.verify_payment_signature(update_razorpay_response)
+        razorpay_pmnt_obj = Razorpay::Payment.fetch(params[:razorpay_payment_id])
 
-          load_order.razor_payment(razorpay_pmnt_obj, payment_method, params['razorpay_signature'])
-          load_order.next
+        load_order.razor_payment(razorpay_pmnt_obj, payment_method, params['razorpay_signature'])
+        load_order.next
 
-          if load_order.completed?
-            @order = nil
-            flash['order_completed'] = true
-            redirect_to(completion_route) && return
-          else
-            redirect_to(checkout_state_path(load_order.state)) && return
-          end
-        end
+        redirect_to(checkout_state_path(load_order.state)) && return unless load_order.completed?
+
+        flash['order_completed'] = true
+        redirect_to(completion_route) && return
       else
         flash[:error] = params[:error][:description]
         redirect_to(checkout_state_path(load_order.state)) && return
