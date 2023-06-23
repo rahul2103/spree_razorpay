@@ -10,15 +10,15 @@
   data-razor-pay-description="<%= payment_method.preferences[:merchant_description] %>"
   data-razor-pay-callback-url="<%= razorpay_response_url(order_id: current_order.number, payment_method_id: payment_method.id) %>"
 
-  data-razor-pay-prefill-name="<%= spree_current_user.try(:email) %>"
-  data-razor-pay-prefill-email="<%= spree_current_user.try(:email) %>"
+  data-razor-pay-prefill-name="<%= current_order.try(:name) %>"
+  data-razor-pay-prefill-email="<%= current_order.try(:email) %>"
   data-razor-pay-prefill-contact="<%= current_order.bill_address.phone %>"
 
   data-razor-pay-notes-address="<%= payment_method.preferences[:merchant_address] %>"
 
   data-razor-pay-theme-color="<%= payment_method.preferences[:theme_color] %>"
 
-  data-razor-pay-redirect="<%= true %>"
+  data-razor-pay-redirect="<%= false %>"
   data-razor-pay-image="<%= '' %>"
-  data-razor-pay-order-id="<%= Razorpay::RpOrder::Api.new.create(current_order.token) %>"
-/>
+  data-razor-pay-order-id="<%= Razorpay::RpOrder::Api.new.create(current_order.try(:id)) %>"
+></div>

@@ -6,62 +6,30 @@ module Razorpay
   module RpOrder
     class Api < Razorpay::Base
 
-      attr_reader :order, :razorpay_checkout
+      attr_reader :order
 
-      def create(order_token)
-        @order = Spree::Order.find_by_token(order_token)
-        @razorpay_checkout = Spree::RazorpayCheckout.find_by_order_id(@order.id)
+      def create(order_id)
+        @order = Spree::Order.find_by(id: order_id)
 
-        return razorpay_checkout.razorpay_order_id if razorpay_checkout.present?
+        razorpay_order = Razorpay::Order.create(order_create_params)
 
-        url = URI(order_create_url)
-        https = Net::HTTP.new(url.host, url.port)
-        https.use_ssl = true
-
-        request = Net::HTTP::Post.new(url)
-        request["Content-Type"] = "application/json"
-        request["Authorization"] = basic_auth_token
-        request.body = JSON.dump(order_create_params)
-
-        response = https.request(request)
-        parsed_data = JSON.parse(response.body)
-
-        if response.code == '200'
-          save_razorpay_order(parsed_data)
-
-          return parsed_data['id']
+        if razorpay_order.try(:id).present?
+          return razorpay_order.id
         else
-          return ''
+          ''
         end
-
       rescue Exception => e
-        e
+        ''
       end
 
       private
 
       def order_create_params
-       {
-          "amount": @order.inr_amt_in_paise,
-          "currency": @order.currency
+        {
+          "amount": order.inr_amt_in_paise,
+          "currency": order.currency,
+          "receipt": order.number
         }
-      end
-
-      def order_create_url
-        "https://api.razorpay.com/v1/orders"
-      end
-
-      def basic_auth_token
-        "Basic #{Base64.strict_encode64("#{payment_method.preferred_key_id}:#{payment_method.preferred_key_secret}")}"
-      end
-
-      def save_razorpay_order(response_data)
-        rpay_checkout  = Spree::RazorpayCheckout.find_or_initialize_by(
-          order_id: @order.id,
-          razorpay_order_id: response_data['id']
-          )
-
-        rpay_checkout.save
       end
     end 
   end
