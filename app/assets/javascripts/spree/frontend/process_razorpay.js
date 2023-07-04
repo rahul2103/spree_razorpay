@@ -33,8 +33,8 @@ Spree.ready(function ($) {
     var rzp1 = new Razorpay(options);
   }
 
-  document.getElementById('razorpay-button').onclick = function(e){
-      rzp1.open();
-      e.preventDefault();
-  }
+  $( RAZOR_PAY_BUTTON ).on( "click", function() {
+    rzp1.open();
+    e.preventDefault();
+  });
 })
